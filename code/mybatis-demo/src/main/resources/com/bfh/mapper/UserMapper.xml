@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 当 Mapper 接口和 XML 文件关联的时候，命名空间 namespace 的值就需要配置成接口的全限定名称，
+     MyBatis 内部就是通过这个值将接口和 XML 关联起来的 -->
+<mapper namespace="com.bfh.mapper.UserMapper">
+    <resultMap id="userMap" type="com.bfh.model.SysUser">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userInfo" column="user_info"/>
+        <result property="headImg" column="head_img" jdbcType="BLOB"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--  通过 id 将 xml 中的 select 标签与接口中的方法关联  -->
+    <select id="selectById" resultMap="userMap">
+        select * from sys_user where id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.bfh.model.SysUser">
+        select id,
+            user_name userName,
+            user_password userPassword,
+            user_email userEmail,
+            user_info userInfo,
+            head_img headImg,
+            create_time createTime
+        from sys_user
+    </select>
+
+    <select id="selectRolesByUserId" resultType="com.bfh.model.SysRole">
+        select r.id, r.role_name roleName, r.enabled, r.create_by createBy, r.create_time createTime
+            from sys_user u
+            inner join sys_user_role ur on u.id = ur.user_id
+            inner join sys_role r on ur.role_id = r.id
+            where u.id = #{userId}
+    </select>
+
+    <!--  insert 标签属性
+            id：命名空间中的唯一标识
+            flushCache：默认为 true，任何时候，只要语句被调用，都会清空一级缓存和二级缓存
+            timeout：设置在抛出异常前，驱动程序等待数据库返回请求结果的秒数
+            statementType：对于 STATEMENT、PREPARED、CALLABLE，MyBatis 回分别使用对应的 Statement、PreparedStatement、CallableStatement，默认值为 PREPAED
+            useGeneratedKeys：默认 false，若设为 true，MyBatis 会使用 JDBC 的 getGeneratedKeys 方法来取出有数据库内部生成的主键
+            keyProperty：MyBatis 通过 getGeneratedKeys 获取主键值后将要赋值的属性名。如果希望得到多个数据库自动生成的列，属性值也可以以逗号分隔的属性名称列表
+            为了防止类型错误，对于一些特殊的数据类型，建议指定具体的 jdbcType 值，如 headImg 指定 BLOB，createTime 指定 TIMESTAMP 类型
+      -->
+    <insert id="insert">
+        insert into sys_user (id, user_name, user_password, user_email, user_info, head_img, create_time)
+            values(#{id}, #{userName}, #{userPassword}, #{userEmail}, #{userInfo}, #{headImg, jdbcType=BLOB},
+                #{createTime, jdbcType=TIMESTAMP});
+    </insert>
+
+    <insert id="insert2" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user (user_name, user_password, user_email, user_info, head_img, create_time)
+            values(#{userName}, #{userPassword}, #{userEmail}, #{userInfo}, #{headImg, jdbcType=BLOB},
+                #{createTime, jdbcType=TIMESTAMP});
+    </insert>
+
+    <delete id="deleteById">
+        delete from sys_user where id = #{id}
+    </delete>
+
+    <select id="selectRolesByUserIdAndRoleEnabled" resultType="com.bfh.model.SysRole">
+        select
+            r.id,
+            r.role_name roleName,
+            r.enabled,
+            r.create_by createBy,
+            r.create_time createTime
+        from sys_user u
+        inner join sys_user_role ur on u.id = ur.user_id
+        inner join sys_role r on ur.role_id = r.id
+        where u.id = #{userId} and r.enabled = #{enabled}
+    </select>
+
+    <select id="selectByIdOrUserName" resultType="com.bfh.model.SysUser">
+        select id,
+            user_name userName,
+            user_password userPassword,
+            user_email userEmail,
+            user_info userInfo,
+            head_img headImg,
+            create_time createTime
+        from sys_user
+        where 1 = 1
+        <choose>
+            <when test="id != null">
+                and id = #{id}
+            </when>
+            <when test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </when>
+            <otherwise>
+                and 1 = 2
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectByUser" resultType="com.bfh.model.SysUser">
+        select id,
+        user_name userName,
+        user_password userPassword,
+        user_email userEmail,
+        user_info userInfo,
+        head_img headImg,
+        create_time createTime
+        from sys_user
+        where 1 = 1
+        <if test="userName != null and userName != ''">
+            and user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="userEmail != null and userEmail != ''">
+            and user_email = #{userEmail}
+        </if>
+    </select>
+
+    <select id="selectByUser2" resultType="com.bfh.model.SysUser">
+        select id,
+        user_name userName,
+        user_password userPassword,
+        user_email userEmail,
+        user_info userInfo,
+        head_img headImg,
+        create_time createTime
+        from sys_user
+        <where>
+            <if test="userName != null and userName != ''">
+                and user_name like concat('%', #{userName}, '%')
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                and user_email = #{userEmail}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateById">
+        update sys_user
+        set user_name = #{userName},
+            user_password = #{userPassword},
+            user_email = #{userEmail},
+            user_info = #{userInfo},
+            head_img = #{headImg, jdbcType=BLOB},
+            create_time = #{createTime, jdbcType=TIMESTAMP}
+        where id = #{id}
+    </update>
+
+    <update id="updateByIdSelective">
+        update sys_user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="userPassword != null and userPassword != ''">
+                user_password = #{userPassword},
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                user_email = #{userEmail},
+            </if>
+            <if test="userInfo != null and userInfo != ''">
+                user_info = #{userInfo},
+            </if>
+            <if test="headImg != null">
+                head_img = #{headImg, jdbcType=BLOB},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime, jdbcType=TIMESTAMP},
+            </if>
+            id = #{id}
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectByIdList" resultType="com.bfh.model.SysUser">
+        select id,
+            user_name userName,
+            user_password userPassword,
+            user_email userEmail,
+            user_info userInfo,
+            head_img headImg,
+            create_time createTime
+        from sys_user
+        where id in
+        <foreach collection="list" open="(" close=")" separator="," item="id" index="i">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="insertList">
+        insert into sys_user (user_name, user_password, user_email, user_info, head_img, create_time)
+        values
+            <foreach collection="list" item="user" separator=",">
+                (#{user.userName}, #{user.userPassword}, #{user.userEmail}, #{user.userInfo}, #{user.headImg, jdbcType=BLOB},
+                #{user.createTime, jdbcType=TIMESTAMP})
+            </foreach>
+    </insert>
+
+    <update id="updateByMap">
+        update sys_user
+        set
+        <foreach collection="_parameter" item="val" index="key" separator=",">
+            ${key} = #{val}
+        </foreach>
+        where id = #{id}
+    </update>
+</mapper>

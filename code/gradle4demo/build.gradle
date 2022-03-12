@@ -1,0 +1,73 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.15.RELEASE'
+    // 版本仲裁
+    id 'io.spring.dependency-management' version '0.6.1.RELEASE'
+    id 'java'
+}
+
+group = 'com.bfh'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile "org.projectlombok:lombok:1.18.2"
+    compile 'mysql:mysql-connector-java:5.1.36'
+    compile 'org.mybatis.generator:mybatis-generator-core:1.3.5'
+    compile 'tk.mybatis:mapper:3.4.2'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jar {
+    manifest {
+        // 打包 jar 时指定主程序类
+        attributes 'Main-Class': "com.bfh.MainApp"
+    }
+}
+
+// 定义 task 方式1
+// 执行 ./gradlew t1 , 输出结果 'hello world 1'
+task('t1') {
+    doLast {
+        println "hello world 1"
+    }
+}
+// 定义 task 方式2
+tasks.create('t2') {
+    doLast {
+        println "hello world 2"
+    }
+}
+// 定义 task 方式3
+task(t3) {
+    doLast {
+        println "hello world 3"
+    }
+}
+// 定义 task 方式4
+task t4 {
+    doLast {
+        println "hello world 4"
+    }
+}
+
+// 在创建 Task 时，可以传入一个 Map 来简单配置任务，常用配置项有:
+// type: 基于一个存在的 Task 来创建，类似于继承，默认为 DefaultTask
+// overwrite: 是否替换已经存在的 Task，和 type 配合使用，默认为 false
+// dependsOn: 用于配置任务依赖，默认值为 []
+// action: 添加到任务中的一个 Action 或一个闭包，默认为 null
+// description: 用于配置任务的描述，默认为 null
+// group 用于配置任务的分组，默认为 null
+
+
+test {
+	// 指定是否快速失败，true 表示只要有一个单测失败就停止后面的单侧
+	failFast = false
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--  相当于添加了注释 @Component / @Service / @Repository / @Controller  -->
+    <bean id="a" class="com.bfh.xmlaop.A"></bean>
+    <bean id="logUtil" class="com.bfh.xmlaop.LogUtil"></bean>
+
+
+    <aop:config>
+        <aop:pointcut id="mypoint" expression="execution(* com.bfh.xmlaop.A.*(..))"/>
+        <!-- 指定切面 @Aspect -->
+        <aop:aspect ref="logUtil" order="1000">
+            <!-- 相当于方法添加注释 @Around -->
+            <aop:around method="around" pointcut-ref="mypoint"/>
+            <!-- 相当于方法添加注解 @Before -->
+            <aop:before method="before" pointcut="execution(* com.bfh.xmlaop.A.*(..))"/>
+            <!-- 相当于方法注释 @AfterReturning -->
+            <aop:after-returning method="logReturn" pointcut-ref="mypoint" returning="result"/>
+            <!-- 相当于方法注释 @After -->
+            <aop:after method="logEnd" pointcut-ref="mypoint"/>
+        </aop:aspect>
+    </aop:config>
+
+<!--    <aop:config>-->
+<!--        <aop:aspect ref="logUtil">-->
+<!--            <aop:before  expression="execution(* com.bfh.xmlaop.A.*(..))"/>-->
+<!--        </aop:aspect>-->
+<!--    </aop:config>-->
+
+
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 改变创建顺序 -->
+    <bean id="car" class="com.bfh.Car" depends-on="person">
+    </bean>
+    <bean id="person" class="com.bfh.Person">
+    </bean>
+    <!-- 测试 bean 的作用域，分别创建单实例和多实例的 bean
+        prototype: 多实例的，默认不创建，在get时创建对象，且每次get的是不同实例
+        singleton: 单实例的(默认)，在容器启动完成时，对象已经被创建完成放于容器中；任何获取都是获取之前创建好的bean；
+    -->
+    <bean id="book" class="com.bfh.Book" scope="prototype">
+    </bean>
+
+    <!-- 静态工厂方法 -->
+    <bean id="airPlane01" class="com.bfh.factory.AirPlaneStaticFactory" factory-method="getAirPlane">
+        <constructor-arg name="captainName" value="李四"/>
+    </bean>
+    <!-- 实例工厂方法 -->
+    <bean id="airPlaneInstanceFactory" class="com.bfh.factory.AirPlaneInstanceFactory">
+    </bean>
+
+    <bean id="airPlane02" class="com.bfh.AirPlane" factory-bean="airPlaneInstanceFactory" factory-method="getAirPlan">
+        <constructor-arg name="captainName" value="王五"/>
+    </bean>
+
+    <bean id="tmp" class="com.bfh.factory.MyFactoryBeanImple">
+    </bean>
+</beans>

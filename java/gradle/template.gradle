@@ -1,0 +1,68 @@
+group 'com.fhb'
+
+ext {
+    // 定义全局值
+
+}
+
+buildscript {
+    ext {
+        // 
+    }
+
+    repositories {
+        maven { url "http://..." }
+    }
+
+    dependencies {
+        classpath "xxx"
+    }
+}
+
+subprojects {
+    apply plugin: 'base'
+
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+
+    configurations {
+        all*.exclude group: "xxx", module: "xxx"
+    }
+
+    sourceSets {
+        main {
+            resources {
+                srcDir = ["xxx", "xxx"]
+            }
+        }
+        test {
+            resources {
+                srcDir = ["xxx", "xxx"]
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url "xxx"
+        }
+    }
+
+    dependencies {
+        compile "xxx:xxx:version"
+        testCompile "xxx:xxx:version"
+    }
+}
+
+project(':DemoA') {
+    dependencies {
+        compile project(":xxx")
+
+        compile ("xxx:xxx:version") {
+            force = true
+        }
+        compile ("xxx:xxx:version") {
+            exculde group: "xxx", module: "*"
+        }
+    }
+}

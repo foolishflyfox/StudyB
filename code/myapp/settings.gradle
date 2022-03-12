@@ -1,0 +1,10 @@
+rootProject.name = 'myapp'
+
+// 包含子项目
+include 'myapi'
+include 'mycommon'
+include 'mycontract'
+include 'mycore'
+include 'mydao'
+include 'myintegration'
+include 'myrepository'

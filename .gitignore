@@ -1,0 +1,6 @@
+**/.gradle
+**/*.class
+**/*.data
+**/.idea
+**/.DS_Store
+**/build

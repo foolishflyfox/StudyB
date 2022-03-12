@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        resources {
+            // 指定资源的搜索路径，例如 log4j2.xml 可以放在 resources/testing 下
+            srcDirs = ["src/main/resources/base", "src/main/resources/testing"]
+        }
+    }
+}
+
+dependencies {
+    compile "org.springframework:spring-context:4.3.12.RELEASE"
+    compile "javax.annotation:javax.annotation-api:1.3.2"
+    compile "org.aspectj:aspectjweaver:1.8.0"
+    compile "org.springframework:spring-aspects:4.3.12.RELEASE"
+
+    compile 'org.projectlombok:lombok:1.18.22'
+    compile 'com.github.ben-manes.caffeine:caffeine:2.9.1'
+    compile 'net.sf.dozer:dozer:5.5.1'
+
+    compile "com.google.guava:guava:29.0-jre"
+    compile "com.alibaba:fastjson:1.2.79"
+
+//    compile "ch.qos.logback:logback-classic:1.0.13"
+
+//    compile "org.apache.logging.log4j:log4j-api:2.9.1"
+//    compile "org.apache.logging.log4j:log4j-core:2.9.1"  // core 中包含 api
+    compile "org.apache.logging.log4j:log4j-slf4j-impl:2.9.1"
+
+    // testCompile 声明的依赖只能用于测试代码，即 src/test/java
+    // testCompile group: 'junit', name: 'junit', version: '4.12'
+    // compile 用于声明整个项目的依赖，也就是  src/main/java 和 src/test/java 中都可以使用 compile 声明的依赖
+    testCompile "junit:junit:4.12"
+    testCompile "org.mockito:mockito-core:3.7.7"
+    testCompile "org.powermock:powermock-api-mockito2:2.0.2"
+
+}

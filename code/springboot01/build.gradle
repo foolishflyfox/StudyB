@@ -1,0 +1,31 @@
+plugins {
+    // spring boot 的相关插件
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    // spring 版本管理插件，以后引入 spring 的依赖可以不写版本号
+    id 'io.spring.dependency-management' version '0.6.1.RELEASE'
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}
+
+ext {
+    springbootVersion = "2.0.1.RELEASE"
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web"
+//    gradle 4 可用
+//    compile "org.projectlombok:lombok"
+    annotationProcessor 'org.projectlombok:lombok:1.18.2'
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  通过给 bean 添加某些注解，可以快速地将 bean 加入到 ioc 容器中
+            某个类上添加任何一个注解都能快速将这个注解加入到 ioc 容器的管理中：
+          Spring 有四个注解：
+            @Controller：控制器，我们推荐给控制器)的组件加这个注解
+            @Service：业务逻辑，我们的业务逻辑层的组件添加这个注释
+            @Repository：给数据库层(持久化层，dao 层)的组件添加这个注解
+            @Component：给不属于以上几层的组件添加这个注解
+          Spring 底层不会去验证这个组件是否如你注解所说的是一个 dao 层的或者是一个 servlet 层的组件
+          我们推荐各自层加各自注解，给我们程序员看
+
+          使用注解将组件快速地加入到你的容器中需要几步：
+            1. 给要添加的组件标4个注解中的任何一个；
+            2. 告诉 Spring 自动扫描注解的组件，依赖 conntext 名称空间
+            3. 依赖 spring-aop 包
+
+          使用直接加入到容器中的组件和使用注解加入到容器中的组件行为默认是一样的
+            1. 组件的id，默认都是组件类名首字母小写
+            2. 组件的 scope 默认是 singleton
+      -->
+    <!-- context:component-scan 自动扫描组件
+            base-package: 指定扫描的基础包，将基础包及其下面所有的包的所有加了注解的类，自动扫描进 ioc 容器-->
+    <!--
+        使用 context: exclude-filter 表示不扫描的类，可以排除一些不要的组件
+        type 表示反向过滤的规则：
+            annotation：按注解排除，标注了指定注解的组件不创建
+            assignable：按照类排除
+            aspectj：后来要写的 aspectj 表达式(不用)
+            custom：自定义(自己写代码决定哪些创建到容器)
+            regex：还可以写正则表达式
+    -->
+<!--    <context:component-scan base-package="com.bfh">-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.context.annotation.Scope"/>-->
+<!--        <context:exclude-filter type="assignable" expression="com.bfh.servlet.BookServlet"/>-->
+<!--    </context:component-scan>-->
+
+<!--    <context:component-scan base-package="com.bfh" use-default-filters="false">-->
+<!--        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>-->
+<!--    </context:component-scan>-->
+
+    <context:component-scan base-package="com.bfh"></context:component-scan>
+</beans>

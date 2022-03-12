@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bfh.mapper.CourseMapper">
+    <update id="batchIncSortByMonitorAndClassRoom">
+        update course
+        set sort = sort + 1
+        where
+        <foreach collection="list" open="(" close=")" separator=" or " item="item" index="index">
+            (monitor = #{item.monitor} and class_room = #{item.classRoom})
+        </foreach>
+    </update>
+
+    <select id="queryClassRoomWithMonitor" resultType="java.lang.Integer">
+        select class_room from course where 1=1
+            <if test="monitor != null">
+                and monitor=#{monitor}
+            </if>
+            <if test="beginDt != null">
+                and dt &gt;= #{beginDt}
+            </if>
+            <if test="endDt != null">
+                and dt &lt;= #{endDt}
+            </if>
+        group by class_room;
+    </select>
+</mapper>

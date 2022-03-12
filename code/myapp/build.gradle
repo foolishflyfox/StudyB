@@ -1,0 +1,50 @@
+import org.apache.commons.codec.digest.DigestUtils
+
+apply plugin: 'base'
+
+// 定义全局变量，如库的版本
+ext {
+
+    env = System.getProperty("env") == null ? "development" : System.getProperty("env")
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+//sourceCompatibility = 1.8
+
+buildscript {
+    ext {
+        commonsCodecVersion = '1.6'
+    }
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+    }
+    dependencies {
+        // 如果要使用全局变量，必须使用双引号，不能使用单引号
+        classpath "commons-codec:commons-codec:$commonsCodecVersion"
+    }
+
+}
+
+allprojects {
+    apply plugin: 'java'
+    // 指定包的仓库
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+// 执行该任务: gradle mytask
+task mytask {
+    println org.apache.commons.codec.digest.DigestUtils.md5Hex("abcdefg")
+    println DigestUtils.md5Hex("abcdefg")
+}

@@ -1,0 +1,17 @@
+- 对一个类的方法的访问，都会触发 JVM 对该类中静态变量的初始化操作。
+- java
+    - lang
+        - System
+            - getProperties: 确定当前系统属性
+                - java.version: jre 版本号
+                - java.vendor: java 供应商
+                - java.home: java 安装目录
+                - java.vm.specification.version: Java 虚拟机规范名称
+                - java.vm.version: java 虚拟机实现版本
+                - java.vm.name: java 虚拟机版本，如 Java HotSpot(TM) 64-Bit Server VM
+                - java.class.path: java 类路径
+                - java.library.path: 
+                - java.io.tmpdir:
+                - java.compiler
+                - java.ext.dirs
+                - 

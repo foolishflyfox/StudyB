@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 注册一个 Person 对象，Spring 会自动创建这个 Person 对象  -->
+    <!--  通过 ctrl+n 可自动生成  -->
+    <!--  一个 Bean 标签可以注册一个组件(对象，类)  -->
+    <bean id="person01" class="com.bfh.Person">
+        <property name="lastName" value="张三"/>
+        <property name="age" value="18"/>
+        <property name="gender" value="男"/>
+        <property name="email" value="zhangsan@abc.com"/>
+    </bean>
+<!--    <bean id="p2" class="com.bfh.Person">-->
+
+<!--    </bean>-->
+<!--    <bean id="person3" class="com.bfh.Person">-->
+<!--        <constructor-arg name="lastName" value="小明"></constructor-arg>-->
+<!--        <constructor-arg name="gender" value="男"></constructor-arg>-->
+<!--        <constructor-arg name="email" value="xiaoming@abc.com"></constructor-arg>-->
+<!--        <constructor-arg name="age" value="12"></constructor-arg>-->
+<!--    </bean>-->
+<!--    <bean id="person4" class="com.bfh.Person">-->
+<!--        <constructor-arg value="小花"></constructor-arg>-->
+<!--        <constructor-arg value="18"></constructor-arg>-->
+<!--        <constructor-arg value="女"></constructor-arg>-->
+<!--        <constructor-arg value="xiaohua@abc.com"></constructor-arg>-->
+<!--    </bean>-->
+
+<!--    <bean id="person6" class="com.bfh.Person"-->
+<!--          p:age="18" p:email="abc@xxx.com" p:lastName="abc">-->
+<!--    </bean>-->
+</beans>

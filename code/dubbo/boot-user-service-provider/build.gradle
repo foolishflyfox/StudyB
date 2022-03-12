@@ -1,0 +1,30 @@
+plugins {
+    id 'org.springframework.boot' version '2.0.4.RELEASE'
+    // 版本仲裁
+    id 'io.spring.dependency-management' version '0.6.1.RELEASE'
+    id 'java'
+}
+
+group = 'com.bfh'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile "org.projectlombok:lombok:1.18.2"
+    implementation 'com.alibaba.boot:dubbo-spring-boot-starter:0.2.0'
+    implementation 'com.alibaba:fastjson:1.2.71'
+//    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+test {
+    useJUnitPlatform()
+}

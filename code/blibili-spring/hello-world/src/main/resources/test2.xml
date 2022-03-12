@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 单实例 bean，容器启动时候就会创建好，容器关闭也会销毁创建的 bean
+         多实例 bean，获取的时候才创建   -->
+    <bean id="book01" class="com.bfh.Book"
+        destroy-method="myDestory" init-method="myInit" scope="singleton"></bean>
+
+    <!--  Spring 后置处理器  -->
+    <bean id="beanPostProcessor" class="com.bfh.MyBeanPostProcessor">
+    </bean>
+
+    <context:property-placeholder location="classpath:test2.properties"/>
+
+    <bean id="car" class="com.bfh.Car">
+        <property name="name" value="${username}"/>
+    </bean>
+
+
+</beans>

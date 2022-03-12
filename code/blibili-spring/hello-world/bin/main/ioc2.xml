@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <bean id="car" class="com.bfh.Car">
+        <property name="name" value="宝马"/>
+        <property name="price" value="10000"/>
+    </bean>
+
+    <bean id="person" class="com.bfh.Person">
+        <property name="car" ref="car"/>
+        <property name="lastName" value="张三"/>
+    </bean>
+
+    <bean id="person2" class="com.bfh.Person">
+        <property name="car">
+            <bean class="com.bfh.Car">
+                <property name="name" value="奔驰"/>
+                <property name="price" value="8888"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="book001" class="com.bfh.Book">
+        <property name="name" value="三国演义"/>
+        <property name="author" value="罗贯中"/>
+    </bean>
+    <bean id="person3" class="com.bfh.Person">
+        <!-- 为list类型赋值 -->
+        <property name="books">
+            <!-- books = new ArrayList<Book>() -->
+            <list>
+                <!-- 即使加了 id，也不能通过 getBean 获取，内部变量只能内部使用 -->
+                <bean id="innerBook" class="com.bfh.Book">
+                    <property name="name" value="西游记"/>
+                    <property name="author" value="吴承恩"/>
+                </bean>
+                <ref bean="book001"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="person4" class="com.bfh.Person">
+        <property name="maps">
+            <map>
+                <entry key="a">
+                    <value type="int">18</value>
+                </entry>
+                <entry key="b" value="abc"/>
+                <entry key="book" value-ref="book001"/>
+                <entry key="car">
+                    <bean class="com.bfh.Car">
+                        <property name="name" value="特斯拉"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean id="person5" class="com.bfh.Person">
+        <property name="properties">
+            <props>
+                <!-- 所有的 key value 都是 String -->
+                <prop key="username">root</prop>
+                <prop key="password">123456</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="person6" class="com.bfh.Person" abstract="true">
+        <property name="lastName" value="张三"/>
+        <property name="age" value="18"/>
+        <property name="gender" value="男"/>
+        <property name="email" value="zhangsan@abc.com"/>
+    </bean>
+    <bean id="person7" class="com.bfh.Person" parent="person6">
+        <property name="lastName" value="李四"/>
+        <property name="email" value="lisi@abc.com"/>
+        <property name="maps" ref="myMap"/>
+    </bean>
+    <util:map id="myMap">
+        <entry key="aaa" value="张三"></entry>
+        <entry key="bbb" value="李四"/>
+        <entry key="ccc">
+            <value type="double">12.34</value>
+        </entry>
+    </util:map>
+    <bean id="person8" class="com.bfh.Person">
+        <property name="car" ref="car"/>
+        <property name="car.price" value="1234567"/>
+    </bean>
+
+
+</beans>
